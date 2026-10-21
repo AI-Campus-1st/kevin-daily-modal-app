@@ -6,6 +6,9 @@
   - 이름: 머리말 경로를 '-'로 잇고 낮은 카멜 표기를 '-' 표기로 바꿈
     (예: typography.body.fontSize → --typography-body-font-size)
   - 값 안의 {colors.primary} 같은 참조는 var(--colors-primary)로 바꿈
+- colors-light는 colors와 같은 이름의 변수로 만들어 라이트 조건 블록 두 곳에 넣음 (DESIGN.md 2.5.5)
+  - 기기가 밝은 화면 설정이고 다크를 직접 고르지 않았을 때, 라이트를 직접 골랐을 때
+  - colors에 없는 이름이 있으면 오류
 - --check: 파일을 쓰지 않고 지금 tokens.css가 머리말과 같은지만 확인. 다르면 종료 코드 1
 
 실행 예 (backend/ 폴더에서, PyYAML이 설치된 가상 환경 사용)
@@ -25,7 +28,14 @@ DESIGN_PATH = ROOT / 'docs' / 'design' / 'DESIGN.md'
 TOKENS_PATH = ROOT / 'frontend' / 'css' / 'tokens.css'
 
 GROUPS = ('colors', 'typography', 'rounded', 'spacing', 'elevation', 'layout')
+LIGHT_GROUP = 'colors-light'
 REFERENCE = re.compile(r'\{([a-zA-Z0-9_.-]+)\}')
+
+# 라이트 토큰을 넣는 블록 (DESIGN.md 2.5.5). (바깥 조건, 선택자). 바깥 조건이 없으면 None
+LIGHT_BLOCKS = (
+    ('@media (prefers-color-scheme: light)', ":root:not([data-theme='dark'])"),
+    (None, ":root[data-theme='light']"),
+)
 
 HEADER = '''/* DESIGN.md 머리말에서 생성한 파일. 직접 수정 금지
  * 원본: docs/design/DESIGN.md
@@ -96,7 +106,14 @@ def build_css(data):
             raise TokenError(f'없는 토큰 참조: {{{match.group(1)}}}')
         return f'var({name})'
 
-    lines = [HEADER, ':root {']
+    light = []
+    for key, value in (data.get(LIGHT_GROUP) or {}).items():
+        name = variable_name(['colors', key])
+        if name not in names:
+            raise TokenError(f'{LIGHT_GROUP}.{key}: colors에 없는 이름')
+        light.append((name, REFERENCE.sub(replace, css_value(value))))
+
+    lines = [HEADER, ':root {', '  color-scheme: dark;', '']
     current = None
     for name, value, group in entries:
         if group != current:
@@ -106,6 +123,21 @@ def build_css(data):
             current = group
         lines.append(f'  {name}: {REFERENCE.sub(replace, value)};')
     lines.append('}')
+
+    if light:
+        for condition, selector in LIGHT_BLOCKS:
+            indent = '  ' if condition else ''
+            lines.append('')
+            if condition:
+                lines.append(f'{condition} {{')
+            lines.append(f'{indent}{selector} {{')
+            lines.append(f'{indent}  color-scheme: light;')
+            lines.append('')
+            lines.append(f'{indent}  /* {LIGHT_GROUP} */')
+            lines.extend(f'{indent}  {name}: {value};' for name, value in light)
+            lines.append(f'{indent}}}')
+            if condition:
+                lines.append('}')
     return '\n'.join(lines) + '\n'
 
 

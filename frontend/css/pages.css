@@ -144,7 +144,7 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-xxs);
-  color: var(--colors-caution);
+  color: var(--colors-caution-text);
 }
 
 /* SC-04 경로 지도 (screen-map.md 1장) */

@@ -6,6 +6,8 @@ import * as mapPage from './pages/map.js';
 import * as placePage from './pages/place.js';
 import * as settingsPage from './pages/settings.js';
 import * as todayPage from './pages/today.js';
+import { loadSettings } from './storage.js';
+import { applyTheme } from './theme.js';
 
 const root = document.getElementById('app');
 
@@ -108,6 +110,9 @@ function onRoute() {
   replacing = false;
   render(hash);
 }
+
+// 저장된 화면 모드를 첫 화면을 그리기 전에 적용 (DESIGN.md 2.5.5)
+applyTheme(loadSettings().theme);
 
 window.addEventListener('hashchange', onRoute);
 onRoute();

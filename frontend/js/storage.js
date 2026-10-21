@@ -10,6 +10,7 @@ const SETTINGS_KEY = 'dmpm.v1.settings';
 
 export const SLOTS = ['origin', 'destination'];
 const MODES = ['commute_return', 'return_commute'];
+const THEMES = ['light', 'dark'];
 
 function read(key) {
   try {
@@ -81,6 +82,8 @@ export function defaultSettings() {
     marginSeconds: MARGIN_SECONDS,
     directionMode: 'commute_return',
     manualDirection: null,
+    // 화면 모드. null이면 기기 설정 따름 (DESIGN.md 2.5.1). 선택 항목이라 없으면 null (같은 v1 형식)
+    theme: null,
   };
 }
 
@@ -111,10 +114,19 @@ export function loadSettings() {
     settings.directionMode = stored.directionMode;
   }
   settings.manualDirection = validManual(stored.manualDirection);
+  settings.theme = THEMES.includes(stored.theme) ? stored.theme : null;
   return settings;
 }
 
 export function saveSettings(settings) {
+  return write(SETTINGS_KEY, settings);
+}
+
+// 화면 모드만 바꿔 저장 (screen-settings.md 3.6)
+// - 저장된 설정을 읽어 theme만 바꿈. 설정 화면에서 저장하지 않은 다른 값은 함께 저장하지 않음
+export function saveTheme(theme) {
+  const settings = loadSettings();
+  settings.theme = THEMES.includes(theme) ? theme : null;
   return write(SETTINGS_KEY, settings);
 }
 

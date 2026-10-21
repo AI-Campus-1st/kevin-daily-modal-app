@@ -49,7 +49,7 @@
 | 키 | 내용 |
 |---|---|
 | `dmpm.v1.places` | 장소 2개 |
-| `dmpm.v1.settings` | 목표 도착 시각, 여유 시간, 출근 퇴근 모드, 수동 전환 상태 |
+| `dmpm.v1.settings` | 목표 도착 시각, 여유 시간, 출근 퇴근 모드, 수동 전환 상태, 화면 모드 |
 
 - 키 이름의 `v1`은 저장 형식 버전. 형식이 바뀌면 새 버전 키를 만들고, 앱을 열 때 이전 키를 읽어 옮긴 뒤 이전 키를 지움
 - 읽을 때 없으면 `null`로 두는 선택 항목을 더하는 것은 형식 변경으로 보지 않아 같은 버전 키를 씀 (2026-10-20 사용자 결정)
@@ -64,6 +64,7 @@
 - `marginSeconds`(기본값 `rules.md` 12장)
 - `directionMode`(`commute_return` 출근/퇴근, `return_commute` 퇴근/출근)
 - `manualDirection`(수동 전환한 방향과 유지 종료 시각, 없으면 `null`)
+- `theme`(화면 모드. `light` 라이트, `dark` 다크, `null` 기기 설정 따름). 선택 항목이며 없으면 `null` (`DESIGN.md` 2.5.5, `screen-settings.md` 3.6)
 
 ### 4.4 지우기
 - 저장 정보 모두 지우기(F-12)는 위 키를 모두 지움. 확인 절차 후 실행 (`DESIGN.md` 7.3 `button-caution`)

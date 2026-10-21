@@ -1,6 +1,7 @@
 // SC-02 설정 (screen-settings.md)
 // - 모달에서 고른 값은 화면 값(draft)만 바꾸고, 화면 아래 "저장"으로 한꺼번에 기기에 저장
 // - 장소 입력 화면에 다녀와도 저장하지 않은 값은 화면 메모리에 남음. 오늘의 추천으로 나가면 버림
+// - 화면 모드는 저장 버튼 대상이 아니며 고르는 즉시 적용하고 저장 (3.6)
 
 import { buttonCaution, buttonGhost, buttonPrimary } from '../components/buttons.js';
 import { el } from '../components/dom.js';
@@ -8,9 +9,17 @@ import { topBar } from '../components/frame.js';
 import { listRow, textInput } from '../components/inputs.js';
 import { modal, toast } from '../components/overlay.js';
 import { DIRECTION_SWITCH_TIME } from '../logic/defaults.js';
-import { clearAll, loadPlaces, loadSettings, saveSettings } from '../storage.js';
+import { clearAll, loadPlaces, loadSettings, saveSettings, saveTheme } from '../storage.js';
+import { applyTheme } from '../theme.js';
 
 const MARGIN_CHOICES = [0, 5, 10, 15, 20, 30]; // 분 (screen-settings.md 3.2)
+
+// 화면 모드 선택지 (screen-settings.md 3.6). [저장 값, 글자]
+const THEME_CHOICES = [
+  [null, '기기 설정 따름'],
+  ['light', '라이트'],
+  ['dark', '다크'],
+];
 
 let draft = null;
 let root = null;
@@ -81,6 +90,10 @@ function section(title, rows) {
   ]);
 }
 
+function themeText(theme) {
+  return THEME_CHOICES.find(([value]) => value === theme)[1];
+}
+
 function modeText(mode) {
   return mode === 'return_commute' ? `${DIRECTION_SWITCH_TIME} 전 퇴근` : `${DIRECTION_SWITCH_TIME} 전 출근`;
 }
@@ -133,6 +146,14 @@ function draw() {
           subtitle: '앱을 연 시각에 따라 방향을 정합니다',
           value: modeText(draft.directionMode),
           onClick: openModeModal,
+        }),
+      ]),
+      section('화면', [
+        listRow({
+          title: '화면 모드',
+          subtitle: '기기 설정 따름이면 휴대폰의 화면 설정에 맞춥니다',
+          value: themeText(loadSettings().theme),
+          onClick: openThemeModal,
         }),
       ]),
       buttonGhost({ label: '저장 정보 모두 지우기', onClick: openClearModal, block: true }),
@@ -230,6 +251,23 @@ function openModeModal() {
   const handle = modal({ title: '출근 퇴근 전환', content: [el('div', { class: 'modal-list' }, rows)] });
 }
 
+// 3.6 화면 모드. 고르는 즉시 적용하고 저장된 설정의 theme만 바꿈. 알림은 띄우지 않음
+function openThemeModal() {
+  const current = loadSettings().theme;
+  const rows = THEME_CHOICES.map(([theme, title]) =>
+    listRow({
+      title,
+      selected: current === theme,
+      onClick: () => {
+        saveTheme(theme);
+        applyTheme(theme);
+        handle.close(() => draw());
+      },
+    }),
+  );
+  const handle = modal({ title: '화면 모드', content: [el('div', { class: 'modal-list' }, rows)] });
+}
+
 // 3.4 저장 정보 모두 지우기 (F-12)
 function openClearModal() {
   const handle = modal({
@@ -243,6 +281,8 @@ function openClearModal() {
           block: true,
           onClick: () => {
             clearAll();
+            // 지운 뒤 화면 모드는 기기 설정 따름 (screen-settings.md 3.4)
+            applyTheme(null);
             draft = null;
             handle.close(() => nav.up('#today'));
           },

@@ -1,13 +1,13 @@
 // 수단 색 고르기 (DESIGN.md 2.4)
 // - 구간, 노선을 받아 수단 색 토큰 이름과 그 색 위의 글자 토큰 이름을 돌려줌. 화면 요소에는 접근하지 않음
 // - 색: { color: 'subway-line2', ink: 'ink-dark' }. 화면은 var(--colors-{이름})으로 씀
-// - 글자는 DESIGN.md 2.4 표의 '글자' (ink, ink-dark 중 대비가 높은 쪽)
+// - 글자는 DESIGN.md 2.4 표의 '글자' (on-primary, ink-dark 중 대비가 높은 쪽). on-primary는 두 화면 모드 모두 흰색 (2.5.4)
 
 const INK = {
-  'mode-walk': 'ink',
+  'mode-walk': 'on-primary',
   'mode-bike': 'ink-dark',
   'mode-pm': 'ink-dark',
-  'subway-line1': 'ink',
+  'subway-line1': 'on-primary',
   'subway-line2': 'ink-dark',
   'subway-line3': 'ink-dark',
   'subway-line4': 'ink-dark',
@@ -18,10 +18,10 @@ const INK = {
   'subway-line9': 'ink-dark',
   'subway-gyeongui-jungang': 'ink-dark',
   'subway-suin-bundang': 'ink-dark',
-  'subway-shinbundang': 'ink',
-  'subway-airport': 'ink',
+  'subway-shinbundang': 'on-primary',
+  'subway-airport': 'on-primary',
   'subway-gyeongchun': 'ink-dark',
-  'subway-gyeonggang': 'ink',
+  'subway-gyeonggang': 'on-primary',
   'subway-seohae': 'ink-dark',
   'subway-ui-sinseol': 'ink-dark',
   'subway-sillim': 'ink-dark',
@@ -30,19 +30,19 @@ const INK = {
   'subway-incheon2': 'ink-dark',
   'subway-uijeongbu': 'ink-dark',
   'subway-everline': 'ink-dark',
-  'subway-gtx-a': 'ink',
-  'bus-trunk': 'ink',
+  'subway-gtx-a': 'on-primary',
+  'bus-trunk': 'on-primary',
   'bus-branch': 'ink-dark',
   'bus-village': 'ink-dark',
-  'bus-wide': 'ink',
-  'bus-direct': 'ink',
-  'bus-rapid': 'ink',
+  'bus-wide': 'on-primary',
+  'bus-direct': 'on-primary',
+  'bus-rapid': 'on-primary',
   'bus-general': 'ink-dark',
-  'bus-seat': 'ink',
+  'bus-seat': 'on-primary',
   'bus-circular': 'ink-dark',
-  'bus-airport': 'ink',
-  'bus-night': 'ink',
-  primary: 'ink',
+  'bus-airport': 'on-primary',
+  'bus-night': 'on-primary',
+  primary: 'on-primary',
 };
 
 // 카카오 지하철 노선 이름 → 색 토큰 (DESIGN.md 2.4.2)

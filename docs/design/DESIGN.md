@@ -66,8 +66,21 @@ colors:
   bus-night: "#3d5bab"
   # 파생 토큰 (원본 토큰 조합)
   ink-secondary: "rgba(255, 255, 255, 0.7)"
+  caution-text: "{colors.caution}"
   pressed-overlay: "rgba(0, 0, 0, 0.2)"
   gradient-brand: "linear-gradient(135deg, {colors.primary} 0%, {colors.magenta} 100%)"
+
+colors-light:
+  # 라이트 모드에서 값을 바꾸는 색 (2.5). 이름은 colors와 같고, 여기 없는 색은 colors 값 그대로
+  canvas: "#ffffff"
+  surface-indigo: "#ebedfd"
+  surface-onyx: "#e6e6e6"
+  surface-black: "#e6e6e6"
+  hairline: "#e6e6e6"
+  ink: "#0a0d3a"
+  ink-secondary: "rgba(10, 13, 58, 0.7)"
+  link: "#006a92"
+  caution-text: "#736217"
 
 typography:
   # 글꼴은 모두 Pretendard로 대체. 크기, 굵기, 줄 높이, 자간은 원본 값 유지
@@ -158,7 +171,7 @@ components:
   header-gradient:
     base: hero
     background: "{colors.gradient-brand}"
-    textColor: "{colors.ink}"
+    textColor: "{colors.on-primary}"
     typography: "{typography.heading-sm}"
     padding: "{spacing.xl} {spacing.md}"
   direction-toggle:
@@ -166,6 +179,7 @@ components:
     backgroundColor: "{colors.surface-indigo}"
     selectedBackgroundColor: "{colors.primary}"
     textColor: "{colors.ink}"
+    selectedTextColor: "{colors.on-primary}"
     typography: "{typography.link}"
     rounded: "{rounded.pill}"
     padding: "{spacing.xs} {spacing.md}"
@@ -220,7 +234,7 @@ components:
     padding: "{spacing.xxs}"
     lineColor: "수단 색 (2.4)"
   transfer-point:
-    backgroundColor: "{colors.ink}"
+    backgroundColor: "{colors.on-primary}"
     borderColor: "환승 뒤 수단 색 (2.4)"
     rounded: "{rounded.full}"
     size: "{spacing.md}"
@@ -349,7 +363,8 @@ components:
 |---|---|---|
 | 원본 토큰 | 원본 파일의 값을 그대로 사용 | `primary`, `spacing.md` |
 | 사용자 지정 토큰 | 사용자가 직접 지정해 추가한 토큰 | `caution`, 수단 색(`mode-bike`, `subway-line2`, `bus-trunk` 등) |
-| 파생 토큰 | 원본 토큰을 투명도, 조합으로 바꾼 토큰. 새로운 색은 만들지 않음 | `ink-secondary`, `gradient-brand` |
+| 파생 토큰 | 원본 토큰을 투명도, 조합으로 바꾼 토큰. 새로운 색은 만들지 않음 | `ink-secondary`, `caution-text`, `gradient-brand` |
+| 라이트 토큰 | 라이트 모드에서 `colors`의 같은 이름 토큰 값을 바꾸는 색 (머리말 `colors-light`). 원본 토큰의 값이나 조합만 사용 | `colors-light.canvas`, `colors-light.ink` |
 
 ## 1. 개요
 
@@ -360,6 +375,7 @@ components:
 - 수단(도보, 따릉이, PM, 지하철 노선, 버스 종류)마다 색을 하나씩 정해 지도 선, 수단 칩, 구간 행에서 같은 색으로 표시 (2.4)
 - 기본 경로를 맨 위의 큰 카드로 두고, 다른 경로는 기본 경로와의 차이로 읽히게 함
 - 강조색마다 의미를 하나씩 고정해, 색만 보고도 상태를 알 수 있게 함 (2.2)
+- 화면 모드는 다크(기본)와 라이트 두 가지. 라이트 모드는 바탕, 면, 글자 색만 바꾸고 강조색, 수단 색, 형태, 배치는 다크와 같음 (2.5)
 
 ### 1.2 원본과 다르게 적용한 항목
 | 항목 | 원본 | 이 서비스 | 이유 |
@@ -369,6 +385,7 @@ components:
 | 큰 제목 크기 | `display-xl` 82px, `display-lg` 62px 사용 | 사용하지 않음. 가장 큰 글자는 `display-md` 56px | 휴대폰 화면 너비에 맞지 않음 |
 | 강조색 수 | Blurple, green, magenta 세 가지만, 네 번째 강조색 금지 | `caution`(#ffda33) 추가 | 주의 표현이 필요 (사용자 결정) |
 | 수단 색 | 없음 | 도보, 따릉이, PM, 지하철 노선, 버스 종류별 색 추가 (2.4). 강조색이 아닌 수단 구분 전용 | 실제 노선 색과 같은 색으로 수단을 알아보게 함 (사용자 결정) |
+| 화면 모드 | 다크 하나 (라이트용 바탕, 면, 글자 토큰 없음) | 다크, 라이트 두 가지. 라이트 색은 원본 토큰의 값이나 조합으로 만듦 (2.5) | 밝은 곳에서 읽기, 기기의 밝은 화면 설정에 맞춤 (사용자 결정) |
 | 그라디언트 | 바탕 전체에 계속 움직이는 그라디언트 | 오늘의 추천 화면 머리 영역에만 움직이지 않는 그라디언트 | 매일 반복해서 보는 화면의 읽기 방해 최소화 |
 | magenta 위 글자색 | 흰색 (`ink`) | 검정 (`ink-dark`) | 흰 글자는 magenta 위에서 대비 3.4:1로 작은 글자 기준(4.5:1) 미달. 검정은 6.2:1 |
 | 큰 카드 안쪽 여백 | `stat-card` `spacing.xxl` 32px | `spacing.xl` 24px | 휴대폰 너비에서 내용 영역 확보 |
@@ -385,10 +402,11 @@ components:
 | `surface-onyx` | #23272a | 카드 안의 낮은 면. 대여소 행, 중립 배지, 비활성 버튼 |
 | `surface-black` | #000000 | 지도를 담는 면 (`map-frame`, 권장 F-16) |
 | `primary` | #5865f2 | 대표색. 기본 경로 카드, 주요 버튼, 선택 상태 |
-| `on-primary` | #ffffff | `primary` 위의 글자 |
+| `on-primary` | #ffffff | `primary`, `gradient-brand`, 수단 색 위의 흰 글자, 지도 환승 지점 원. 두 화면 모드 모두 흰색 (2.5.4) |
 | `green` | #35ed7e | 기록 버튼 전용 (권장 F-13 탑재 후 사용) |
 | `magenta` | #ec48bd | 경로 종류 배지, 지도의 대여소 표시, 머리 영역 그라디언트 |
-| `caution` | #ffda33 | 주의 전용. 재고 정보 없음, 입력 오류, 되돌릴 수 없는 작업의 확인 |
+| `caution` | #ffda33 | 주의 전용. 재고 정보 없음, 입력 오류, 되돌릴 수 없는 작업의 확인. 배지, 버튼처럼 칠하는 면에 사용 |
+| `caution-text` | 다크 `caution`과 같음 | 주의 글자와 아이콘. 바탕 위에 `caution`을 글자색으로 칠하지 않고 이 토큰을 씀 (라이트 값 2.5.2) |
 | `link` | #00b0f4 | 본문 안의 글자 링크 |
 | `ink` | #ffffff | 기본 글자 |
 | `ink-secondary` | 흰색 70% | 보조 글자 (추천 이유, 안내 문구, 입력 칸 예시 문구) |
@@ -406,7 +424,7 @@ components:
 | `caution` | "주의가 필요함" | 장식, 일반 강조, 큰 면의 배경 |
 | `green` | "지금 누를 기록 행동" | 장식, 상태 표시, 기록 외 버튼. 첫 버전에는 쓰지 않음 |
 
-- `caution`은 작은 면(배지, 버튼, 아이콘, 글자)에만 사용. 카드 전체를 노랗게 칠하지 않음
+- `caution`은 작은 면(배지, 버튼)에만, `caution-text`는 아이콘과 글자에만 사용. 카드 전체를 노랗게 칠하지 않음
 - `green` 버튼은 기록 기능(권장 F-13) 탑재 후 한 화면에 하나만 둠
 
 ### 2.3 대비 기준
@@ -419,25 +437,26 @@ components:
 | `ink-dark` / `magenta` | 6.2:1 | 모든 글자 |
 | `ink-dark` / `caution` | 15.3:1 | 모든 글자 |
 | `ink-dark` / `green` | 13.6:1 | 모든 글자 |
-| `ink` / `magenta` | 3.4:1 | 18px 이상 굵은 글자만 (머리 영역 그라디언트 위 제목) |
-| `caution` / `canvas` | 13.6:1 | 주의 글자, 아이콘 |
+| `on-primary` / `magenta` | 3.4:1 | 18px 이상 굵은 글자만 (머리 영역 그라디언트 위 제목) |
+| `caution-text` / `canvas` | 13.6:1 | 주의 글자, 아이콘 |
 | `position-text` / `position-surface` | 6.0:1 | 모든 글자 |
 | 수단 색 / 그 색의 글자 (2.4) | 4.6:1 이상 | 모든 글자 |
 
 - 글자는 4.5:1 이상, 18px 이상 굵은 글자(`heading-sm` 이상)는 3:1 이상
 - 대비 값은 WCAG 대비 계산식 기준
+- 위 표는 다크 모드 기준. 라이트 모드 대비는 2.5.3
 
 ### 2.4 수단 색
 - 수단을 알아보게 하는 전용 색. 2.2의 강조색과 별개이며 수단 구분 외에는 쓰지 않음
 - 쓰는 곳: 지도 경로 선, 수단 칩(`mode-chain`), 구간 행(`leg-row`) 바탕, 실시간 위치 행 바탕, 지도 환승 지점(`transfer-point`) 테두리
-- 수단 색 위 글자는 `ink`, `ink-dark` 중 대비가 높은 쪽 (아래 표의 '글자'). 구간 행 둘째 줄부터도 같은 글자색이며 투명도를 주지 않음 (`ink-secondary`, 검정 70%는 여러 수단 색 위에서 4.5:1 미달)
-- 표에 없는 노선, 종류는 `primary`, 글자는 `ink`
+- 수단 색 위 글자는 `on-primary`(흰색), `ink-dark` 중 대비가 높은 쪽 (아래 표의 '글자'). 구간 행 둘째 줄부터도 같은 글자색이며 투명도를 주지 않음 (`ink-secondary`, 검정 70%는 여러 수단 색 위에서 4.5:1 미달)
+- 표에 없는 노선, 종류는 `primary`, 글자는 `on-primary`
 - 한 구간에 노선이 여러 개면 첫 번째 노선(`vehicles[0]`)의 색. 실시간 위치 행은 그 노선 자신의 색
 
 #### 2.4.1 도보, 따릉이, PM, 위치 문구
 | 토큰 | 값 | 쓰임 | 글자 | 대비 |
 |---|---|---|---|---|
-| `mode-walk` | #262626 | 도보 구간 | `ink` | 15.1:1 |
+| `mode-walk` | #262626 | 도보 구간 | `on-primary` | 15.1:1 |
 | `mode-bike` | #2edb8c | 따릉이 포함 경로의 따릉이 구간 | `ink-dark` | 11.6:1 |
 | `mode-pm` | #9c9c9c | PM 전용 경로 | `ink-dark` | 7.7:1 |
 | `position-surface` | #262626 | 위치 문구 칩(`position-chip`) 바탕 | - | - |
@@ -450,7 +469,7 @@ components:
 
 | 토큰 | 값 | 노선 이름 | 글자 | 대비 | 이름 확인 |
 |---|---|---|---|---|---|
-| `subway-line1` | #0052a4 | 1호선 | `ink` | 7.7:1 | 확인 |
+| `subway-line1` | #0052a4 | 1호선 | `on-primary` | 7.7:1 | 확인 |
 | `subway-line2` | #00a84d | 2호선 | `ink-dark` | 6.7:1 | 확인 |
 | `subway-line3` | #ef7c1c | 3호선 | `ink-dark` | 7.6:1 | 확인 |
 | `subway-line4` | #00a4e3 | 4호선 | `ink-dark` | 7.4:1 | 확인 |
@@ -461,10 +480,10 @@ components:
 | `subway-line9` | #bdb092 | 9호선 | `ink-dark` | 9.8:1 | 확인 |
 | `subway-gyeongui-jungang` | #77c4a3 | 경의중앙선 | `ink-dark` | 10.2:1 | 확인 |
 | `subway-suin-bundang` | #f5a200 | 수인분당선 | `ink-dark` | 10.1:1 | 확인 |
-| `subway-shinbundang` | #d4003b | 신분당선 | `ink` | 5.4:1 | 확인 |
-| `subway-airport` | #0065b3 | 공항철도 | `ink` | 6.0:1 | 확인 |
+| `subway-shinbundang` | #d4003b | 신분당선 | `on-primary` | 5.4:1 | 확인 |
+| `subway-airport` | #0065b3 | 공항철도 | `on-primary` | 6.0:1 | 확인 |
 | `subway-gyeongchun` | #0c8e72 | 경춘선 | `ink-dark` | 5.1:1 | 미확인 |
-| `subway-gyeonggang` | #003da5 | 경강선 | `ink` | 9.5:1 | 확인 |
+| `subway-gyeonggang` | #003da5 | 경강선 | `on-primary` | 9.5:1 | 확인 |
 | `subway-seohae` | #8ec31f | 서해선 | `ink-dark` | 10.0:1 | 미확인 |
 | `subway-ui-sinseol` | #b0ce18 | 우이신설선 | `ink-dark` | 11.7:1 | 미확인 |
 | `subway-sillim` | #6789ca | 신림선 | `ink-dark` | 6.0:1 | 미확인 |
@@ -473,7 +492,7 @@ components:
 | `subway-incheon2` | #ed8b00 | 인천2호선 | `ink-dark` | 8.3:1 | 확인 |
 | `subway-uijeongbu` | #fda600 | 의정부경전철 | `ink-dark` | 10.6:1 | 미확인 |
 | `subway-everline` | #509f22 | 에버라인, 용인에버라인 | `ink-dark` | 6.3:1 | 미확인 |
-| `subway-gtx-a` | #9a6292 | GTX-A | `ink` | 4.6:1 | 확인 |
+| `subway-gtx-a` | #9a6292 | GTX-A | `on-primary` | 4.6:1 | 확인 |
 
 - 서해선은 출처 안에서 #8ec31f(기본값)와 #81a914(노선 기호 예시) 두 값이 있어 기본값 사용
 
@@ -490,17 +509,109 @@ components:
 
 | 토큰 | 값 | 카카오 종류 | 근거 | 글자 | 대비 | 값 확인 |
 |---|---|---|---|---|---|---|
-| `bus-trunk` | #0068b7 | 간선 | 서울, 인천 간선 (같은 색) | `ink` | 5.7:1 | 확인 |
+| `bus-trunk` | #0068b7 | 간선 | 서울, 인천 간선 (같은 색) | `on-primary` | 5.7:1 | 확인 |
 | `bus-branch` | #53b332 | 지선 | 서울, 인천 지선 (같은 색) | `ink-dark` | 7.9:1 | 확인 |
 | `bus-village` | #53b332 | 마을 | 서울 마을. 경기 마을(#ffc600)과 구분하지 않음 (사용자 결정) | `ink-dark` | 7.9:1 | 확인 |
-| `bus-wide` | #e60012 | 광역 | 서울, 인천 광역 | `ink` | 4.8:1 | 확인 |
-| `bus-direct` | #e60012 | 직행 | 경기 직행좌석 | `ink` | 4.8:1 | 확인 |
-| `bus-rapid` | #e60012 | 급행 | 광역, 직행과 같은 색 (사용자 결정) | `ink` | 4.8:1 | 확인 |
+| `bus-wide` | #e60012 | 광역 | 서울, 인천 광역 | `on-primary` | 4.8:1 | 확인 |
+| `bus-direct` | #e60012 | 직행 | 경기 직행좌석 | `on-primary` | 4.8:1 | 확인 |
+| `bus-rapid` | #e60012 | 급행 | 광역, 직행과 같은 색 (사용자 결정) | `on-primary` | 4.8:1 | 확인 |
 | `bus-general` | #33cc99 | 일반 | 경기 시내일반 | `ink-dark` | 10.2:1 | 확인 |
-| `bus-seat` | #0068b7 | 좌석 | 경기 일반좌석. 인천 시내좌석(#3d5bab)과 구분하지 않음 | `ink` | 5.7:1 | 확인 |
+| `bus-seat` | #0068b7 | 좌석 | 경기 일반좌석. 인천 시내좌석(#3d5bab)과 구분하지 않음 | `on-primary` | 5.7:1 | 확인 |
 | `bus-circular` | #f2b70a | 순환 | 서울 순환 | `ink-dark` | 11.6:1 | 미확인 |
-| `bus-airport` | #3d5bab | 공항 | 인천 공항좌석 | `ink` | 6.4:1 | 미확인 |
-| `bus-night` | #3d5bab | 심야 | 서울 심야 | `ink` | 6.4:1 | 미확인 |
+| `bus-airport` | #3d5bab | 공항 | 인천 공항좌석 | `on-primary` | 6.4:1 | 미확인 |
+| `bus-night` | #3d5bab | 심야 | 서울 심야 | `on-primary` | 6.4:1 | 미확인 |
+
+### 2.5 라이트 모드
+
+#### 2.5.1 화면 모드 정하기
+| 설정 값 | 적용하는 모드 |
+|---|---|
+| 기기 설정 따름 (기본) | 기기가 밝은 화면 설정이면 라이트, 그 외에는 다크 |
+| 라이트 | 라이트 |
+| 다크 | 다크 |
+
+- 설정 화면(SC-02)의 "화면 모드"에서 고름 (`screen-settings.md` 3.6). 저장 형식은 `frontend/CLAUDE.md` 4.3 `theme`
+- 기기 설정 따름 상태에서 앱을 연 채 기기 설정이 바뀌면 화면도 바로 따라 바뀜
+- 기기가 밝기 설정을 알려 주지 않으면 다크
+- 라이트 모드는 색만 바꿈. 글자, 간격, 모서리, 그림자, 컴포넌트 구성, 배치는 두 모드가 같음
+
+#### 2.5.2 라이트 토큰
+- 머리말 `colors-light`의 값. 라이트 모드에서 `colors`의 같은 이름 토큰 값을 이 값으로 바꿈
+
+| 토큰 | 다크 값 | 라이트 값 | 만든 방법 | 역할 (2.1과 같음) |
+|---|---|---|---|---|
+| `canvas` | #0a0d3a | #ffffff | 원본 흰색 (`on-primary` 값) | 모든 화면의 바탕 |
+| `surface-indigo` | #1e2353 | #ebedfd | `primary` 12% + 흰색 | 바탕 위 한 단계 올라온 면 |
+| `surface-onyx` | #23272a | #e6e6e6 | `ink-dark` 10% + 흰색 | 카드 안의 낮은 면, 비활성 버튼 |
+| `surface-black` | #000000 | #e6e6e6 | 라이트 `surface-onyx`와 같은 값 | 지도를 담는 면 |
+| `hairline` | #23272a | #e6e6e6 | 다크와 같은 방식 (`hairline` = `surface-onyx`) | 구분선 |
+| `ink` | #ffffff | #0a0d3a | 다크 `canvas` 값 | 기본 글자 |
+| `ink-secondary` | 흰색 70% | #0a0d3a 70% | 다크와 같은 방식 (`ink` 70%) | 보조 글자 |
+| `link` | #00b0f4 | #006a92 | `link` 60% + `ink-dark` | 본문 안의 글자 링크 |
+| `caution-text` | #ffda33 | #736217 | `caution` 45% + `ink-dark` | 주의 글자, 아이콘 |
+
+- 표에 없는 색은 두 모드에서 같은 값
+  - 강조색: `primary`, `magenta`, `green`, `caution`
+  - 글자: `on-primary`, `ink-dark`, `muted`
+  - 수단 색 전체 (2.4). 수단 칩, 구간 행은 수단 색을 칠한 면이고 글자색도 그 면 위에서 정하므로 바탕이 바뀌어도 대비가 같음
+  - `position-surface`, `position-text`, `pressed-overlay`, `gradient-brand`
+- 깊이 표현(6.1)은 라이트에서도 면의 색으로 함. `canvas`(흰색) → `surface-indigo`(옅은 인디고) → `primary` 순서
+- 라이트 모드의 보조 글자도 `ink-secondary`. `muted`의 쓰임은 바꾸지 않음
+
+#### 2.5.3 라이트 모드 대비
+| 조합 | 대비 | 허용 |
+|---|---|---|
+| `ink` / `canvas` | 18.6:1 | 모든 글자 |
+| `ink` / `surface-indigo` | 16.0:1 | 모든 글자 |
+| `ink` / `surface-onyx` | 14.9:1 | 모든 글자 |
+| `ink-secondary` / `canvas` | 7.1:1 | 모든 글자 |
+| `ink-secondary` / `surface-indigo` | 6.6:1 | 모든 글자 |
+| `ink-secondary` / `surface-onyx` | 6.4:1 | 모든 글자 (비활성 버튼 글자 포함) |
+| `link` / `canvas` | 6.0:1 | 모든 글자 |
+| `link` / `surface-indigo` | 5.2:1 | 모든 글자 |
+| `link` / `surface-onyx` | 4.8:1 | 모든 글자 |
+| `caution-text` / `canvas` | 6.0:1 | 주의 글자, 아이콘 |
+| `caution-text` / `surface-indigo` | 5.2:1 | 주의 글자, 아이콘 |
+| `caution-text` / `surface-onyx` | 4.8:1 | 주의 글자, 아이콘 |
+| `ink` / `pressed-overlay`를 덮은 `surface-indigo` | 10.0:1 | 모든 글자 |
+| 라이트 `ink` / `primary` | 4.0:1 | 사용하지 않음. `primary` 위 글자는 항상 `on-primary` |
+| `caution` / `canvas` | 1.3:1 | 사용하지 않음. 주의 글자는 `caution-text` |
+
+- `primary`, `magenta`, `caution`, `green`, 수단 색 위 글자의 대비는 2.3, 2.4와 같음 (두 모드에서 값이 같음)
+- 초점 표시(`layout.focus-ring`)는 라이트에서 `ink`(#0a0d3a)가 되며, `canvas`, `surface-indigo`, `primary` 모두에서 3:1 이상
+
+#### 2.5.4 두 모드에서 흰색으로 두는 곳
+- `ink`는 라이트에서 어두운 색이 되므로, 바탕과 관계없이 흰색이어야 하는 곳은 `ink` 대신 `on-primary`를 씀
+
+| 위치 | 토큰 | 이유 |
+|---|---|---|
+| `primary` 면 위 글자 (기본 경로 카드, `button-primary`, 선택된 `direction-toggle` 칸) | `on-primary` | 라이트 `ink`는 `primary` 위에서 4.0:1 |
+| 머리 영역 그라디언트(`header-gradient`) 위 글자 | `on-primary` | 그라디언트 위에는 흰 글자만 둠 (6.2) |
+| 수단 색 위 흰 글자 (2.4 표의 '글자'가 `on-primary`인 수단) | `on-primary` | 수단 색은 두 모드에서 같으므로 글자도 같아야 함 |
+| 지도 환승 지점(`transfer-point`) 원 | `on-primary` | 카카오 지도 그림은 화면 모드와 관계없이 밝음 |
+
+- 다크에서는 `ink`와 `on-primary`가 모두 #ffffff이므로 이 표를 적용해도 다크 화면은 달라지지 않음
+
+#### 2.5.5 구현 기준
+- `tools/build_tokens.py`가 `colors-light`를 읽어 `frontend/css/tokens.css`에 아래 세 블록을 만듦 (`tech_stack.md` 5장)
+
+  | 블록 | 내용 | 적용 조건 |
+  |---|---|---|
+  | `:root` | 지금과 같은 모든 토큰(다크 값) + `color-scheme: dark` | 항상 |
+  | `@media (prefers-color-scheme: light)` 안의 `:root:not([data-theme='dark'])` | `colors-light` 토큰 + `color-scheme: light` | 기기가 밝은 화면 설정이고 다크를 직접 고르지 않았을 때 |
+  | `:root[data-theme='light']` | `colors-light` 토큰 + `color-scheme: light` | 라이트를 직접 골랐을 때 |
+
+  - 라이트 블록의 변수 이름은 `colors`와 같음 (예: `colors-light.canvas` → `--colors-canvas`). `colors`에 없는 이름이 `colors-light`에 있으면 오류로 끝남
+  - `color-scheme`은 시각 고르기 창 등 휴대폰 기본 입력 창의 밝기를 화면 모드에 맞추는 CSS 속성. 토큰이 아니며 이 세 블록에만 둠
+- 화면 쪽은 `<html>`의 `data-theme` 속성만 바꿈
+  | 저장 값 (`theme`) | `data-theme` |
+  |---|---|
+  | `null` (기기 설정 따름) | 붙이지 않음 |
+  | `light` | `light` |
+  | `dark` | `dark` |
+- 컴포넌트 CSS는 지금처럼 `var(--colors-...)`만 쓰고 화면 모드별 CSS를 따로 두지 않음
+- 앱을 열 때 저장 값을 읽어 `data-theme`을 붙이기 전까지 기기 설정의 모드로 잠깐 보일 수 있으며, 이를 허용함 (2026-10-21 사용자 결정)
+- 카카오 지도 그림은 화면 모드에 따라 바꾸지 않음. 지도 선 색(수단 색)과 환승 지점(2.5.4)도 두 모드가 같음
 
 ## 3. 글자
 
@@ -578,7 +689,7 @@ components:
 ### 6.2 그라디언트
 - `gradient-brand`는 오늘의 추천 화면 머리 영역(`header-gradient`) 배경에만 사용
 - 움직이지 않음
-- 그라디언트 위에는 `heading-sm` 이상 굵은 흰 글자만 둠 (2.3 대비 기준)
+- 그라디언트 위에는 `heading-sm` 이상 굵은 흰 글자(`on-primary`)만 둠 (2.3 대비 기준, 2.5.4)
 
 ### 6.3 움직임
 - 화면 전환, 카드 순서 변경 등 상태 변화를 알리는 짧은 움직임만 사용
@@ -637,7 +748,7 @@ components:
 | `list-row` | `game-rank-row` | 주소 검색 후보, 설정 항목 |
 
 - 주소 후보 행에는 도로명 주소를 첫 줄(`body`), 지번 주소와 건물 이름을 둘째 줄(`link-sm`, `ink-secondary`)에 둠
-- 입력 칸 아래 안내 문구는 `link-sm`, `ink-secondary`. 입력 오류는 `caution` 아이콘과 `caution` 글자
+- 입력 칸 아래 안내 문구는 `link-sm`, `ink-secondary`. 입력 오류는 `caution-text` 아이콘과 `caution-text` 글자
 
 ### 7.6 겹치는 면과 빈 상태
 | 컴포넌트 | 원본 | 용도 |
@@ -660,7 +771,7 @@ components:
   | 도보 | `mode-walk` 점선 |
 - 지도 위 표시: 출발지, 도착지는 `badge-neutral`("출발", "도착"), 따릉이 대여소는 `badge-rank`("대여", "반납")
 - 선 색은 토큰의 CSS 변수 값을 읽어 지도에 넘김
-- 수단이 바뀌는 지점(환승 지점)마다 `transfer-point`: `ink` 바탕 원에 환승 뒤 수단 색 테두리. 출발지, 도착지에는 두지 않음
+- 수단이 바뀌는 지점(환승 지점)마다 `transfer-point`: `on-primary`(흰색) 바탕 원에 환승 뒤 수단 색 테두리. 두 화면 모드에서 같음. 출발지, 도착지에는 두지 않음
 - 선 굵기와 지도 영역의 가로세로 비율은 토큰 범주(색, 글자, 간격, 모서리, 그림자) 밖의 값으로 화면 명세(`screen-map.md`)에서 정함
 
 ## 8. 서비스 상태별 표현
@@ -707,6 +818,7 @@ components:
 - 강조색은 2.2의 의미로만 사용
 - 수단은 어느 화면에서든 같은 수단 색(2.4)으로 표시
 - 상태는 색과 글자를 함께 써서 표시
+- 바탕과 관계없이 흰색이어야 하는 글자, 원은 `on-primary` (2.5.4)
 - 누를 수 있는 요소는 44px 이상
 
 ### 11.2 하지 말 것
@@ -715,6 +827,8 @@ components:
 - `magenta`를 분류 표시 외에 쓰지 않음
 - 수단 색을 수단 구분 외에 쓰지 않음
 - `caution`을 넓은 면이나 장식에 쓰지 않음
+- `caution`을 글자색으로 쓰지 않음. 주의 글자, 아이콘은 `caution-text`
+- 화면 모드별로 컴포넌트 CSS를 따로 만들지 않음. 화면 모드에 따른 차이는 라이트 토큰(2.5.2)으로만 표현
 - 강조색을 추가하지 않음 (Blurple, green, magenta, caution 네 가지로 끝. 수단 색은 강조색이 아님)
 - 각진 모서리를 쓰지 않음
 - 계속 움직이는 장식을 쓰지 않음
@@ -737,3 +851,8 @@ components:
 | 2026-10-21 | 표에 없는 노선, 버스 종류는 `primary` | 사용자 결정 |
 | 2026-10-21 | 실시간 위치 행 바탕은 안내 대상 노선의 수단 색, 위치 문구는 `position-chip`(#262626 바탕, #ff7a7a 글자) | 사용자 결정 |
 | 2026-10-21 | 지도 환승 지점에 `transfer-point` 원 표시 | 사용자 결정 |
+| 2026-10-21 | 라이트 모드 추가. 기본은 기기 설정 따름, 설정 화면에서 라이트, 다크 직접 선택 가능 | 사용자 결정 |
+| 2026-10-21 | 라이트 토큰(`colors-light`)은 원본 토큰의 값이나 조합으로 만든 2.5.2의 값. 수단 색은 두 모드에서 같음 | 사용자 확인 |
+| 2026-10-21 | 주의 글자, 아이콘용 `caution-text` 추가 (다크 `caution`과 같음, 라이트 #736217) | 사용자 확인. 흰 바탕 위 `caution` 글자는 1.3:1 |
+| 2026-10-21 | 흰색이어야 하는 곳(`primary`, 그라디언트, 수단 색 위 흰 글자, 환승 지점 원)은 `ink` 대신 `on-primary` | 사용자 확인. 라이트 `ink`는 어두운 색 |
+| 2026-10-21 | 앱을 열 때 기기 설정 모드로 잠깐 보이는 깜빡임을 막지 않음 | 사용자 결정. localStorage는 `storage.js`만 읽는 규칙 유지 |

@@ -190,6 +190,7 @@ frontend/
     api.js                  서버 API 호출
     map-sdk.js              카카오 지도 SDK 불러오기 (권장 F-16)
     storage.js              localStorage 읽기, 쓰기
+    theme.js                화면 모드 적용 (<html>의 data-theme, DESIGN.md 2.5.5)
     logic/                  rules.md 8, 9, 11장의 순수 함수 (지금 시각을 인자로 받음)
       order.js              표시 순서, 기본 경로와의 차이
       direction.js          출근, 퇴근 전환
@@ -224,6 +225,12 @@ frontend/
   | `spacing.md` | `--spacing-md: 16px;` |
   | `{colors.primary}` 참조 | `var(--colors-primary)` |
 - 대상: `colors`, `typography`, `rounded`, `spacing`, `elevation`, `layout`. `components`는 CSS 변수로 만들지 않고 `components.css`가 위 변수로 작성
+- 라이트 모드: `colors-light`는 `colors`와 같은 이름의 CSS 변수로 만들어 라이트 조건 블록 두 곳에 넣음. 블록 구성과 조건은 `DESIGN.md` 2.5.5
+  | 머리말 | 출력 위치 |
+  |---|---|
+  | `colors` 등 대상 전체 | `:root` (+ `color-scheme: dark`) |
+  | `colors-light.canvas` | `@media (prefers-color-scheme: light)` 안의 `:root:not([data-theme='dark'])`와 `:root[data-theme='light']`에 `--colors-canvas: #ffffff;` (+ `color-scheme: light`) |
+  - `colors-light`에 `colors`에 없는 이름이 있으면 오류로 끝남
 - 검사 모드: `--check`로 실행하면 파일을 쓰지 않고 현재 `tokens.css`가 머리말과 같은지만 확인. 다르면 오류로 끝남
 - `tokens.css`는 생성물이므로 직접 고치지 않음 (최상위 `CLAUDE.md` 6장)
 
@@ -231,7 +238,7 @@ frontend/
 | 위치 | 저장 대상 | 방식 |
 |---|---|---|
 | 브라우저 | 장소 2개 (이름, 주소, 좌표) | localStorage |
-| 브라우저 | 설정 (목표 도착 시각, 여유 시간, 출근 퇴근 모드, 수동 전환 상태) | localStorage |
+| 브라우저 | 설정 (목표 도착 시각, 여유 시간, 출근 퇴근 모드, 수동 전환 상태, 화면 모드) | localStorage |
 | 브라우저 | 마지막으로 받은 추천 결과와 받은 시각 | 메모리 (화면을 닫으면 사라짐, `rules.md` 10장) |
 | 서버 | 외부 API 응답 | 메모리 캐시 (3.5) |
 

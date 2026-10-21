@@ -8,7 +8,7 @@ import { BIKE_TONE, PM_TONE, WALK_TONE, legTone, namedTone, vehicleTone } from '
 
 test('지하철은 노선 이름으로 고름', () => {
   assert.deepEqual(vehicleTone('subway', { type: '일반', name: '2호선' }), { color: 'subway-line2', ink: 'ink-dark' });
-  assert.deepEqual(vehicleTone('subway', { type: '급행', name: '신분당선' }), { color: 'subway-shinbundang', ink: 'ink' });
+  assert.deepEqual(vehicleTone('subway', { type: '급행', name: '신분당선' }), { color: 'subway-shinbundang', ink: 'on-primary' });
   assert.equal(vehicleTone('subway', { type: '일반', name: 'GTX-A' }).color, 'subway-gtx-a');
 });
 
@@ -20,9 +20,9 @@ test('버스는 카카오 종류로 고름', () => {
 });
 
 test('표에 없는 노선, 종류는 primary', () => {
-  assert.deepEqual(vehicleTone('subway', { type: '일반', name: '없는선' }), { color: 'primary', ink: 'ink' });
-  assert.deepEqual(vehicleTone('bus', { type: '시외', name: '8800' }), { color: 'primary', ink: 'ink' });
-  assert.deepEqual(vehicleTone('bus', undefined), { color: 'primary', ink: 'ink' });
+  assert.deepEqual(vehicleTone('subway', { type: '일반', name: '없는선' }), { color: 'primary', ink: 'on-primary' });
+  assert.deepEqual(vehicleTone('bus', { type: '시외', name: '8800' }), { color: 'primary', ink: 'on-primary' });
+  assert.deepEqual(vehicleTone('bus', undefined), { color: 'primary', ink: 'on-primary' });
 });
 
 test('구간의 색: 도보, 따릉이, 버스와 지하철은 첫 번째 노선', () => {
@@ -34,7 +34,7 @@ test('구간의 색: 도보, 따릉이, 버스와 지하철은 첫 번째 노선
   assert.equal(namedTone(leg, '없음').color, 'bus-branch');
 });
 
-// tokens.css의 값으로 글자 토큰이 ink, ink-dark 중 대비가 높은 쪽인지 확인 (DESIGN.md 2.3, 2.4)
+// tokens.css의 값으로 글자 토큰이 on-primary, ink-dark 중 대비가 높은 쪽인지 확인 (DESIGN.md 2.3, 2.4)
 function luminance(hex) {
   const channels = [1, 3, 5].map((index) => parseInt(hex.slice(index, index + 2), 16) / 255);
   const [r, g, b] = channels.map((c) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
@@ -68,9 +68,9 @@ test('수단 색의 글자는 대비가 높은 쪽이고 4.5:1 이상', () => {
   ];
   for (const tone of tones) {
     const color = tokenHex(tone.color);
-    const white = contrast(color, tokenHex('ink'));
+    const white = contrast(color, tokenHex('on-primary'));
     const black = contrast(color, tokenHex('ink-dark'));
-    assert.equal(tone.ink, white >= black ? 'ink' : 'ink-dark', tone.color);
+    assert.equal(tone.ink, white >= black ? 'on-primary' : 'ink-dark', tone.color);
     assert.ok(Math.max(white, black) >= 4.5, tone.color);
   }
 });

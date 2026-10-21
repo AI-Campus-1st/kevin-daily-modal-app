@@ -35,7 +35,7 @@
   margin: 0 calc(-1 * var(--spacing-md));
   padding: var(--spacing-xl) var(--spacing-md);
   background: var(--colors-gradient-brand);
-  color: var(--colors-ink);
+  color: var(--colors-on-primary);
 }
 
 .direction-toggle {
@@ -55,6 +55,7 @@
 
 .direction-toggle button[aria-pressed='true'] {
   background: var(--colors-primary);
+  color: var(--colors-on-primary);
 }
 
 /* 7.2 추천 카드 */
@@ -99,7 +100,7 @@
   padding: var(--spacing-xxs) var(--spacing-sm);
   border-radius: var(--rounded-lg);
   background: var(--mode-color, var(--colors-primary));
-  color: var(--mode-ink, var(--colors-ink));
+  color: var(--mode-ink, var(--colors-on-primary));
 }
 
 .station-row {
@@ -166,7 +167,7 @@
   padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: var(--rounded-md);
   background: var(--mode-color, var(--colors-primary));
-  color: var(--mode-ink, var(--colors-ink));
+  color: var(--mode-ink, var(--colors-on-primary));
 }
 
 .leg-row .leg-title {
@@ -209,7 +210,7 @@
   height: var(--spacing-md);
   border: var(--spacing-xxs) solid var(--mode-color, var(--colors-primary));
   border-radius: var(--rounded-full);
-  background: var(--colors-ink);
+  background: var(--colors-on-primary);
 }
 
 /* 7.3 버튼 */
