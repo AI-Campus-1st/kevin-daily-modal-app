@@ -1,0 +1,162 @@
+/* 화면별 배치 (screens.md 3.2, 화면 명세 1장)
+ * 구역 사이 spacing.xxl, 카드 사이 spacing.sm, 행 사이 spacing.xs
+ */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  padding-bottom: var(--spacing-xxl);
+}
+
+/* 화면의 주요 행동 버튼은 화면 아래쪽 (DESIGN.md 4.2) */
+.bottom-actions {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  margin-top: auto;
+  padding: var(--spacing-xxl) 0 var(--spacing-md);
+  background: var(--colors-canvas);
+}
+
+.page:has(.bottom-actions) {
+  padding-bottom: 0;
+}
+
+/* SC-01 오늘의 추천 */
+
+.today-page > .empty-state {
+  margin-top: var(--spacing-xxl);
+}
+
+.header-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.header-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.today-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-xxl);
+}
+
+.card-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  align-self: stretch;
+}
+
+.departure-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--spacing-xs);
+}
+
+.duration-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.station-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  align-self: stretch;
+}
+
+/* 처음 불러오는 중: 같은 모양의 surface-indigo 면만 보이고 내용은 숨김 */
+.skeleton,
+.best-route-card.skeleton {
+  background: var(--colors-surface-indigo);
+}
+
+.skeleton > * {
+  visibility: hidden;
+}
+
+/* SC-02 설정 */
+
+.settings-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xxl);
+}
+
+.settings-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.row-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+/* SC-03 장소 입력 */
+
+.place-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xxl);
+}
+
+.place-search,
+.search-form,
+.name-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.search-row {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+.search-row .text-input {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.search-row button {
+  flex: none;
+  white-space: nowrap;
+}
+
+.input-error {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xxs);
+  color: var(--colors-caution);
+}
+
+/* SC-04 경로 지도 (screen-map.md 1장) */
+
+.map-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xxl);
+  margin-top: var(--spacing-xxl);
+}
+
+.map-slot {
+  display: flex;
+  flex-direction: column;
+}

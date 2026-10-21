@@ -1,0 +1,19 @@
+# 인증키 (예시 파일만 저장소에 포함)
+.env
+.env.*
+!.env.example
+
+# Python 가상 환경
+.venv/
+
+# 실행 중 생기는 캐시
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# 내려받은 원본 기준 정보 파일
+backend/data/raw/
+
+# 외부 API 호출 확인 스크립트 (로컬 전용)
+tools/check_api.py

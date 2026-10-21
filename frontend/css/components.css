@@ -1,0 +1,428 @@
+/* DESIGN.md 7장 컴포넌트. 클래스 이름은 컴포넌트 이름과 같음
+ * 값은 DESIGN.md 머리말 components의 토큰 참조를 그대로 옮김
+ */
+
+/* 눌림 상태: pressed-overlay를 덮음 (DESIGN.md 7장) */
+.pressable {
+  position: relative;
+}
+
+.pressable:active:not(:disabled)::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--colors-pressed-overlay);
+  pointer-events: none;
+}
+
+/* 7.1 화면 틀 */
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  margin: 0 calc(-1 * var(--spacing-md));
+  padding: var(--spacing-md);
+  background: var(--colors-canvas);
+  color: var(--colors-ink);
+}
+
+.header-gradient {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  margin: 0 calc(-1 * var(--spacing-md));
+  padding: var(--spacing-xl) var(--spacing-md);
+  background: var(--colors-gradient-brand);
+  color: var(--colors-ink);
+}
+
+.direction-toggle {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+.direction-toggle button {
+  min-width: var(--layout-touch-target);
+  min-height: var(--layout-touch-target);
+  padding: var(--spacing-xs) var(--spacing-md);
+  border: none;
+  border-radius: var(--rounded-pill);
+  background: var(--colors-surface-indigo);
+  color: var(--colors-ink);
+}
+
+.direction-toggle button[aria-pressed='true'] {
+  background: var(--colors-primary);
+}
+
+/* 7.2 추천 카드 */
+
+.best-route-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xl);
+  border-radius: var(--rounded-xl);
+  background: var(--colors-primary);
+  color: var(--colors-on-primary);
+}
+
+.route-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-md);
+  border-radius: var(--rounded-lg);
+  background: var(--colors-surface-indigo);
+  color: var(--colors-ink);
+}
+
+.mode-chain {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* 수단 칩. 색은 화면이 style로 넘기는 --mode-color, --mode-ink (DESIGN.md 2.4) */
+.mode-chain .chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xxs);
+  padding: var(--spacing-xxs) var(--spacing-sm);
+  border-radius: var(--rounded-lg);
+  background: var(--mode-color, var(--colors-primary));
+  color: var(--mode-ink, var(--colors-ink));
+}
+
+.station-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-xs);
+  align-self: stretch;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--rounded-md);
+  background: var(--colors-surface-onyx);
+  color: var(--colors-ink);
+}
+
+.station-row .station-name {
+  flex: 1 1 auto;
+}
+
+/* 펼치기 (screen-today.md 6.1). 카드 전체를 덮는 투명 버튼 */
+.expandable {
+  position: relative;
+}
+
+.card-toggle {
+  position: absolute;
+  inset: 0;
+  padding: 0;
+  border: none;
+  border-radius: inherit;
+  background: transparent;
+  cursor: pointer;
+}
+
+.card-detail {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-xs);
+  align-self: stretch;
+}
+
+/* 투명 버튼 위에 두어 눌러도 카드가 접히지 않게 함 */
+.card-detail .button-ghost-sm {
+  position: relative;
+}
+
+.leg-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  align-self: stretch;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* leg-row (DESIGN.md 7.2). 행 전체를 수단 색으로 칠함. 둘째 줄부터도 같은 글자색 (2.4) */
+.leg-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-xxs);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--rounded-md);
+  background: var(--mode-color, var(--colors-primary));
+  color: var(--mode-ink, var(--colors-ink));
+}
+
+.leg-row .leg-title {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-xxs);
+}
+
+/* 위치 문구 칩 (DESIGN.md 7.2, 권장 F-26) */
+.position-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-xxs) var(--spacing-sm);
+  border-radius: var(--rounded-lg);
+  background: var(--colors-position-surface);
+  color: var(--colors-position-text);
+}
+
+/* 7.7 지도 (map-frame) */
+.map-frame {
+  align-self: stretch;
+  padding: var(--spacing-xxs);
+  border-radius: var(--rounded-lg);
+  background: var(--colors-surface-black);
+}
+
+/* 지도 영역은 콘텐츠 열 너비의 정사각형 (screen-map.md 2장) */
+.map-canvas {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: var(--rounded-md);
+  overflow: hidden;
+}
+
+/* 환승 지점 (DESIGN.md 7.7). 흰 원에 환승 뒤 수단 색 테두리 */
+.transfer-point {
+  box-sizing: border-box;
+  width: var(--spacing-md);
+  height: var(--spacing-md);
+  border: var(--spacing-xxs) solid var(--mode-color, var(--colors-primary));
+  border-radius: var(--rounded-full);
+  background: var(--colors-ink);
+}
+
+/* 7.3 버튼 */
+
+.button-primary,
+.button-ghost,
+.button-ghost-sm,
+.button-caution {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  min-width: var(--layout-touch-target);
+  min-height: var(--layout-touch-target);
+  border: none;
+  text-align: center;
+}
+
+.button-primary {
+  padding: var(--spacing-lg) var(--spacing-xl);
+  border-radius: var(--rounded-sm);
+  background: var(--colors-primary);
+  color: var(--colors-on-primary);
+}
+
+.button-ghost {
+  padding: var(--spacing-md);
+  border-radius: var(--rounded-lg);
+  background: var(--colors-surface-indigo);
+  color: var(--colors-ink);
+}
+
+.button-ghost-sm {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--rounded-xs);
+  background: var(--colors-surface-indigo);
+  color: var(--colors-ink);
+}
+
+.button-caution {
+  padding: var(--spacing-lg) var(--spacing-xl);
+  border-radius: var(--rounded-sm);
+  background: var(--colors-caution);
+  color: var(--colors-ink-dark);
+}
+
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: var(--layout-touch-target);
+  height: var(--layout-touch-target);
+  padding: 0;
+  border: none;
+  border-radius: var(--rounded-full);
+  background: var(--colors-surface-indigo);
+  color: var(--colors-ink);
+  font-size: var(--typography-heading-sm-font-size);
+}
+
+/* 비활성 (button-disabled) */
+.button-primary:disabled,
+.button-ghost:disabled,
+.button-ghost-sm:disabled,
+.button-caution:disabled,
+.icon-button:disabled {
+  background: var(--colors-surface-onyx);
+  color: var(--colors-ink-secondary);
+  cursor: default;
+}
+
+.button-block {
+  width: 100%;
+}
+
+/* 7.4 배지 */
+
+.badge-rank,
+.badge-caution,
+.badge-neutral {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xxs);
+  padding: var(--spacing-xxs) var(--spacing-sm);
+  border-radius: var(--rounded-lg);
+}
+
+.badge-rank {
+  background: var(--colors-magenta);
+  color: var(--colors-ink-dark);
+}
+
+.badge-caution {
+  background: var(--colors-caution);
+  color: var(--colors-ink-dark);
+}
+
+.badge-neutral {
+  background: var(--colors-surface-onyx);
+  color: var(--colors-ink);
+}
+
+/* 7.5 입력과 목록 */
+
+.list-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  width: 100%;
+  min-height: var(--layout-touch-target);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: none;
+  border-radius: var(--rounded-md);
+  background: var(--colors-surface-indigo);
+  color: var(--colors-ink);
+  text-align: left;
+}
+
+.list-row .row-text {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.list-row .row-value {
+  flex: none;
+}
+
+.text-input {
+  width: 100%;
+  min-height: var(--layout-touch-target);
+  padding: var(--spacing-md);
+  border: none;
+  border-radius: var(--rounded-lg);
+  background: var(--colors-surface-indigo);
+  color: var(--colors-ink);
+}
+
+.text-input::placeholder {
+  color: var(--colors-ink-secondary);
+  opacity: 1;
+}
+
+/* 7.6 겹치는 면과 빈 상태 */
+
+.modal-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  width: 100%;
+  max-width: var(--layout-mobile-max);
+  max-height: 100%;
+  overflow-y: auto;
+  padding: var(--spacing-xl);
+  border-radius: var(--rounded-lg);
+  background: var(--colors-canvas);
+  color: var(--colors-ink);
+  box-shadow: var(--elevation-float);
+}
+
+.modal .modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.modal .modal-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.toast-region {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: var(--spacing-xl);
+  z-index: 30;
+  display: flex;
+  justify-content: center;
+  padding: 0 var(--spacing-md);
+  pointer-events: none;
+}
+
+.toast {
+  width: 100%;
+  max-width: var(--layout-mobile-max);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--rounded-lg);
+  background: var(--colors-surface-indigo);
+  color: var(--colors-ink);
+  box-shadow: var(--elevation-float);
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xl);
+  padding: var(--spacing-section) var(--spacing-xl);
+  border-radius: var(--rounded-xl);
+  background: var(--colors-surface-indigo);
+  color: var(--colors-ink);
+  text-align: center;
+}

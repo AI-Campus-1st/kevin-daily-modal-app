@@ -1,0 +1,18 @@
+[tool.ruff]
+target-version = 'py314'
+line-length = 100
+
+[tool.ruff.lint]
+select = ['E', 'F', 'I', 'B', 'UP', 'Q']
+
+[tool.ruff.lint.flake8-quotes]
+inline-quotes = 'single'
+multiline-quotes = 'single'
+docstring-quotes = 'single'
+
+[tool.ruff.format]
+quote-style = 'preserve'
+
+[tool.pytest.ini_options]
+testpaths = ['tests']
+pythonpath = ['.']

@@ -1,0 +1,135 @@
+/* DESIGN.md 머리말에서 생성한 파일. 직접 수정 금지
+ * 원본: docs/design/DESIGN.md
+ * 생성: backend/ 폴더에서 .venv\Scripts\python ..\tools\build_tokens.py
+ */
+
+:root {
+  /* colors */
+  --colors-primary: #5865f2;
+  --colors-on-primary: #ffffff;
+  --colors-green: #35ed7e;
+  --colors-magenta: #ec48bd;
+  --colors-link: #00b0f4;
+  --colors-canvas: #0a0d3a;
+  --colors-surface-indigo: #1e2353;
+  --colors-surface-onyx: #23272a;
+  --colors-surface-black: #000000;
+  --colors-ink: #ffffff;
+  --colors-ink-dark: #000000;
+  --colors-muted: #333333;
+  --colors-hairline: #23272a;
+  --colors-caution: #ffda33;
+  --colors-mode-walk: #262626;
+  --colors-mode-bike: #2edb8c;
+  --colors-mode-pm: #9c9c9c;
+  --colors-position-surface: #262626;
+  --colors-position-text: #ff7a7a;
+  --colors-subway-line1: #0052a4;
+  --colors-subway-line2: #00a84d;
+  --colors-subway-line3: #ef7c1c;
+  --colors-subway-line4: #00a4e3;
+  --colors-subway-line5: #996cac;
+  --colors-subway-line6: #cd7c2f;
+  --colors-subway-line7: #747f00;
+  --colors-subway-line8: #e6186c;
+  --colors-subway-line9: #bdb092;
+  --colors-subway-gyeongui-jungang: #77c4a3;
+  --colors-subway-suin-bundang: #f5a200;
+  --colors-subway-shinbundang: #d4003b;
+  --colors-subway-airport: #0065b3;
+  --colors-subway-gyeongchun: #0c8e72;
+  --colors-subway-gyeonggang: #003da5;
+  --colors-subway-seohae: #8ec31f;
+  --colors-subway-ui-sinseol: #b0ce18;
+  --colors-subway-sillim: #6789ca;
+  --colors-subway-gimpo-goldline: #a17800;
+  --colors-subway-incheon1: #7ca8d5;
+  --colors-subway-incheon2: #ed8b00;
+  --colors-subway-uijeongbu: #fda600;
+  --colors-subway-everline: #509f22;
+  --colors-subway-gtx-a: #9a6292;
+  --colors-bus-trunk: #0068b7;
+  --colors-bus-branch: #53b332;
+  --colors-bus-village: #53b332;
+  --colors-bus-wide: #e60012;
+  --colors-bus-direct: #e60012;
+  --colors-bus-rapid: #e60012;
+  --colors-bus-general: #33cc99;
+  --colors-bus-seat: #0068b7;
+  --colors-bus-circular: #f2b70a;
+  --colors-bus-airport: #3d5bab;
+  --colors-bus-night: #3d5bab;
+  --colors-ink-secondary: rgba(255, 255, 255, 0.7);
+  --colors-pressed-overlay: rgba(0, 0, 0, 0.2);
+  --colors-gradient-brand: linear-gradient(135deg, var(--colors-primary) 0%, var(--colors-magenta) 100%);
+
+  /* typography */
+  --typography-display-md-font-family: Pretendard;
+  --typography-display-md-font-size: 56px;
+  --typography-display-md-font-weight: 700;
+  --typography-display-md-line-height: 1.05;
+  --typography-display-md-letter-spacing: 0;
+  --typography-heading-lg-font-family: Pretendard;
+  --typography-heading-lg-font-size: 48px;
+  --typography-heading-lg-font-weight: 700;
+  --typography-heading-lg-line-height: 1.1;
+  --typography-heading-lg-letter-spacing: 0;
+  --typography-heading-sm-font-family: Pretendard;
+  --typography-heading-sm-font-size: 22px;
+  --typography-heading-sm-font-weight: 700;
+  --typography-heading-sm-line-height: 1.2;
+  --typography-heading-sm-letter-spacing: 0;
+  --typography-body-lg-font-family: Pretendard;
+  --typography-body-lg-font-size: 20px;
+  --typography-body-lg-font-weight: 500;
+  --typography-body-lg-line-height: 1.4;
+  --typography-body-lg-letter-spacing: 0;
+  --typography-link-lg-font-family: Pretendard;
+  --typography-link-lg-font-size: 18px;
+  --typography-link-lg-font-weight: 500;
+  --typography-link-lg-line-height: 1.4;
+  --typography-link-lg-letter-spacing: 0;
+  --typography-body-font-family: Pretendard;
+  --typography-body-font-size: 16px;
+  --typography-body-font-weight: 400;
+  --typography-body-line-height: 1.5;
+  --typography-body-letter-spacing: 0;
+  --typography-link-font-family: Pretendard;
+  --typography-link-font-size: 16px;
+  --typography-link-font-weight: 500;
+  --typography-link-line-height: 1.4;
+  --typography-link-letter-spacing: 0;
+  --typography-link-sm-font-family: Pretendard;
+  --typography-link-sm-font-size: 14px;
+  --typography-link-sm-font-weight: 500;
+  --typography-link-sm-line-height: 1.4;
+  --typography-link-sm-letter-spacing: 0;
+
+  /* rounded */
+  --rounded-xs: 6px;
+  --rounded-sm: 12px;
+  --rounded-md: 14px;
+  --rounded-lg: 16px;
+  --rounded-xl: 40px;
+  --rounded-pill: 50px;
+  --rounded-full: 9999px;
+
+  /* spacing */
+  --spacing-xxs: 4px;
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 20px;
+  --spacing-xl: 24px;
+  --spacing-xxl: 32px;
+  --spacing-section: 40px;
+
+  /* elevation */
+  --elevation-flat: none;
+  --elevation-float: 0 3px 68px rgba(69, 42, 124, 0.1);
+
+  /* layout */
+  --layout-mobile-max: 767px;
+  --layout-touch-target: 44px;
+  --layout-focus-ring: 2px solid var(--colors-ink);
+}

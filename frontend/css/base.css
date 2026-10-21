@@ -1,0 +1,158 @@
+/* 바탕, 글꼴, 단일 열 배치 (DESIGN.md 3, 4장, screens.md 3.2)
+ * 색, 글자, 간격, 모서리, 그림자는 tokens.css의 변수만 사용
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--colors-canvas);
+}
+
+body {
+  margin: 0;
+  background: var(--colors-canvas);
+  color: var(--colors-ink);
+  font-family: var(--typography-body-font-family);
+  font-size: var(--typography-body-font-size);
+  font-weight: var(--typography-body-font-weight);
+  line-height: var(--typography-body-line-height);
+  letter-spacing: var(--typography-body-letter-spacing);
+  -webkit-text-size-adjust: 100%;
+  /* 한글은 낱말 단위로 줄바꿈 */
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+/* 단일 열. 화면 너비가 layout.mobile-max를 넘으면 그 너비로 고정하고 가운데 정렬 */
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  max-width: var(--layout-mobile-max);
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* 키보드 초점 (DESIGN.md 7장). 바깥쪽 2px 띄움 = spacing.xxs의 절반 */
+:focus-visible {
+  outline: var(--layout-focus-ring);
+  outline-offset: calc(var(--spacing-xxs) / 2);
+}
+
+/* 글자 토큰 (DESIGN.md 3.2) */
+.t-display-md {
+  font-family: var(--typography-display-md-font-family);
+  font-size: var(--typography-display-md-font-size);
+  font-weight: var(--typography-display-md-font-weight);
+  line-height: var(--typography-display-md-line-height);
+  letter-spacing: var(--typography-display-md-letter-spacing);
+}
+
+.t-heading-sm {
+  font-family: var(--typography-heading-sm-font-family);
+  font-size: var(--typography-heading-sm-font-size);
+  font-weight: var(--typography-heading-sm-font-weight);
+  line-height: var(--typography-heading-sm-line-height);
+  letter-spacing: var(--typography-heading-sm-letter-spacing);
+}
+
+.t-body-lg {
+  font-family: var(--typography-body-lg-font-family);
+  font-size: var(--typography-body-lg-font-size);
+  font-weight: var(--typography-body-lg-font-weight);
+  line-height: var(--typography-body-lg-line-height);
+  letter-spacing: var(--typography-body-lg-letter-spacing);
+}
+
+.t-link-lg {
+  font-family: var(--typography-link-lg-font-family);
+  font-size: var(--typography-link-lg-font-size);
+  font-weight: var(--typography-link-lg-font-weight);
+  line-height: var(--typography-link-lg-line-height);
+  letter-spacing: var(--typography-link-lg-letter-spacing);
+}
+
+.t-body {
+  font-family: var(--typography-body-font-family);
+  font-size: var(--typography-body-font-size);
+  font-weight: var(--typography-body-font-weight);
+  line-height: var(--typography-body-line-height);
+  letter-spacing: var(--typography-body-letter-spacing);
+}
+
+.t-link {
+  font-family: var(--typography-link-font-family);
+  font-size: var(--typography-link-font-size);
+  font-weight: var(--typography-link-font-weight);
+  line-height: var(--typography-link-line-height);
+  letter-spacing: var(--typography-link-letter-spacing);
+}
+
+.t-link-sm {
+  font-family: var(--typography-link-sm-font-family);
+  font-size: var(--typography-link-sm-font-size);
+  font-weight: var(--typography-link-sm-font-weight);
+  line-height: var(--typography-link-sm-line-height);
+  letter-spacing: var(--typography-link-sm-letter-spacing);
+}
+
+/* 시각, 분 숫자는 고정폭 숫자 (DESIGN.md 3.1) */
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+.ink-secondary {
+  color: var(--colors-ink-secondary);
+}
+
+/* 화면 낭독기에만 읽히는 글자 */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* 선 아이콘 (DESIGN.md 9장). 크기는 주변 글자 크기, 색은 주변 글자 색 */
+.icon {
+  flex: none;
+  width: 1em;
+  height: 1em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* 움직임 줄이기 설정 (DESIGN.md 6.3) */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
